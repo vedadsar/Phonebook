@@ -8,9 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ba.bitcamp.vedadz.model.Contact;
+
 public class ApplicationView extends Main{
 	
-	public static void home(){
+	public static void home(Contact c){
 		JPanel panel = new JPanel();
 		JLabel panelName = new JLabel("Phonebook");
 		JButton show = new JButton("Show contacts");
@@ -41,6 +43,10 @@ public class ApplicationView extends Main{
 		panel.add(panelName);
 		panel.add(add);
 		panel.add(show);
+		//Treba brisati
+		JLabel contactInfo = new JLabel(
+				c.getName() +" " +c.getSurname() +" " +c.getPhoneNumber());
+		panel.add(contactInfo);
 		Main.replacePanel(panel);
 	}
 }
