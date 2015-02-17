@@ -44,6 +44,12 @@ public class Contact extends Application {
 		}
 	}
 	
+	public boolean save(){
+		String values = String.format("(?, '%s', '%s', '%s')", this.name, this.surname, this.phoneNumber);
+		return Application.save(tableName, values);
+		
+	}
+	
 	public String getName() {
 		return name;
 	}
