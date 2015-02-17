@@ -6,6 +6,12 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
+/**
+ * Main gui class. 
+ * Creates initial frame.
+ * @author vedad
+ *
+ */
 public class Main {	
 	
 		private static JFrame window = null;
@@ -26,6 +32,12 @@ public class Main {
 			window.setVisible(true);
 		}
 		
+		/**
+		 * Replacing our frames content.
+		 * This way we're just replacing panel in our frame
+		 * isntead opening new frame on each button press.
+		 * @param panel
+		 */
 		protected  static void replacePanel(Container panel){
 			//TODO izbrisati stari panel ubaciti novi
 			window.setContentPane(panel);

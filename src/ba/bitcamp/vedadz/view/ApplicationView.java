@@ -17,11 +17,20 @@ import javax.swing.SwingConstants;
 import ba.bitcamp.vedadz.controller.ApplicationController;
 import ba.bitcamp.vedadz.model.Contact;
 
-public class ApplicationView extends Main{
+/**
+ * Class from view package.
+ * Create all our GUIs. It extends our
+ * Main class.
+ * @author vedad
+ *
+ */
+public class ApplicationView extends Main{	
 	
-	
-	
-	public static void home(Contact c){
+	/**
+	 * Method which creates home panel and
+	 * puting it into main frame.
+	 */
+	public static void home(){
 		JPanel panel = new JPanel();
 		JLabel panelName = new JLabel("Phonebook");		
 		JButton show = new JButton("Show contacts");
@@ -48,12 +57,10 @@ public class ApplicationView extends Main{
 				// ContactController.newContact();
 				ApplicationController.addContact();
 			}
-		});
-		
+		});		
 		panel.add(panelName);
 		panel.add(add);
 		panel.add(show);
-		//Treba brisati
 		Main.replacePanel(panel);
 	}
 	
@@ -118,7 +125,13 @@ public class ApplicationView extends Main{
 		Main.replacePanel(addPanel);
 		
 	}
-
+	/**
+	 * Method which creates list view of all contacts.
+	 * Has JScrollPane. Size of our panel is constantly increased
+	 * depending on size of our phonebook because this way we
+	 * can controll our jscrollpane.
+	 * @param all
+	 */
 	public static void list(Contact[] all) {
 		int buttonHeight = 50;
 		JPanel content = new JPanel();

@@ -2,7 +2,12 @@ package ba.bitcamp.vedadz.model;
 
 import java.sql.*;
 import java.util.LinkedList;
-
+/**
+ * Class that is our contact.
+ * This class simulates our contact table in db.
+ * @author vedad
+ *
+ */
 public class Contact extends Application {
 	private int ID;
 	private String name;
@@ -37,7 +42,13 @@ public class Contact extends Application {
 		this.surname = surname;
 		this.phoneNumber = phoneNumber;
 	}
-
+	
+	/**
+	 * Static method which searches our table
+	 * for contact at ID sent as parameter.
+	 * @param ID
+	 * @return
+	 */
 	public static Contact find(int ID){
 		ResultSet res = Application.find(ID, tableName);
 		try {
@@ -52,11 +63,25 @@ public class Contact extends Application {
 		}
 	}
 	
+	/**
+	 * Method which saves our contact into db.
+	 * This method actually just send this contacts values
+	 * and calling save method from Application class.
+	 * @return
+	 */
 	public boolean save(){
 		String values = String.format("(?, '%s', '%s', '%s')", this.name, this.surname, this.phoneNumber);
 		return Application.save(tableName, values);		
 	}
 	
+	/**
+	 * Method which returns all contacts from
+	 * our database as array of contacts.
+	 * First we iterate through result set from
+	 * Application.all method, putting contacts into linked list
+	 * and then converting linked list into array.
+	 * @return array of all contacts.
+	 */
 	public static Contact[] all(){
 		ResultSet rs= Application.all(tableName, "id, name, surname");
 		if(rs == null)
@@ -70,7 +95,7 @@ public class Contact extends Application {
 				cl.add(new Contact(cID, cName, cSurname));
 			}
 			Contact[] all = new Contact[cl.size()];
-			cl.toArray(all);
+			cl.toArray(all); //Filling our return array.
 			return all;
 			
 		} catch (SQLException e) {

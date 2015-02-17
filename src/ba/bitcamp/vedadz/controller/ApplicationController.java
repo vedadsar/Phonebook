@@ -6,9 +6,24 @@ import javax.swing.JOptionPane;
 
 import ba.bitcamp.vedadz.model.*;
 import ba.bitcamp.vedadz.view.*;
-
+/**
+ * Class which controls our program. 
+ * Main funcions  start from here. 
+ * @author vedad
+ *
+ */
 public class ApplicationController {
 
+	/**
+	 * Method which creates contact.
+	 * It create local contact and saving it with method from contact class.
+	 * After it it redirects to home panel.
+	 * If saving is done successfuly we'll gett message about it.
+	 * Same if saving failed.
+	 * @param name
+	 * @param surname
+	 * @param number
+	 */
 	public static void create(String name, String surname, String number){
 		Contact newContact = new Contact(name, surname, number);
 		if(newContact.save() == true){
@@ -19,21 +34,26 @@ public class ApplicationController {
 		JOptionPane.showMessageDialog(null, "Creating contact failed!","ERROR", JOptionPane.WARNING_MESSAGE);	
 		}
 	}
+	
+	/**
+	 * Method which changes current panel  to home panel.
+	 */
 	public static  void home(){
-		//prikaz home GUI-a.
-		Contact c = Contact.find(1);
-		ApplicationView.home(c);
+		ApplicationView.home();
 	}
 	
+	/**
+	 * Method for showing list panel.
+	 */
 	public static void list(){
-		Contact [] all = Contact.all();
-		ApplicationView.list(all);
+		Contact [] all = Contact.all(); //Getting all contacts
+		ApplicationView.list(all);		//Sending it as parameter
 	}
 	
 	public static void main(String[] args) {
 	
 		try {
-			Application.init();
+			Application.init();	
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
@@ -43,8 +63,7 @@ public class ApplicationController {
 	}
 
 	public static void addContact() {
-		ApplicationView.add();
-		
+		ApplicationView.add();		
 	}
 
 }
