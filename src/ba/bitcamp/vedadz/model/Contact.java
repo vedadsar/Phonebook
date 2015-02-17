@@ -1,6 +1,7 @@
 package ba.bitcamp.vedadz.model;
 
 import java.sql.*;
+import java.util.LinkedList;
 
 public class Contact extends Application {
 	private int ID;
@@ -9,11 +10,18 @@ public class Contact extends Application {
 	private String phoneNumber;
 	private final static String tableName = "Contact";
 	
+	
 	public Contact(){
 		this.ID = -1;
 		this.name = "unknown";
 		this.surname = "unknown";
 		this.phoneNumber = "";
+	}
+	
+	public Contact(int id, String name, String surname){
+		this.ID = id;
+		this.name = name;
+		this.surname = surname;
 	}
 	
 	public Contact(String name, String surname, String phoneNumber){
@@ -46,8 +54,33 @@ public class Contact extends Application {
 	
 	public boolean save(){
 		String values = String.format("(?, '%s', '%s', '%s')", this.name, this.surname, this.phoneNumber);
-		return Application.save(tableName, values);
-		
+		return Application.save(tableName, values);		
+	}
+	
+	public static Contact[] all(){
+		ResultSet rs= Application.all(tableName, "id, name, surname");
+		if(rs == null)
+			return new Contact[0];
+		LinkedList<Contact> cl = new LinkedList<Contact>();
+		try {
+			while(rs.next()){
+				int cID = rs.getInt("id");
+				String cName = rs.getString("name");
+				String cSurname = rs.getString("surname");
+				cl.add(new Contact(cID, cName, cSurname));
+			}
+			Contact[] all = new Contact[cl.size()];
+			cl.toArray(all);
+			return all;
+			
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			return new Contact[0];
+		}
+	}
+	
+	public String getDisplayName(){
+		return this.name +" " +this.surname;
 	}
 	
 	public String getName() {

@@ -43,4 +43,15 @@ public class Application {
 			return false;
 		}
 	}
+	
+	protected static ResultSet all(String tableName, String columns){
+		try {
+			Statement stmt = db.createStatement();
+			String sql = String.format("SELECT %s FROM %s ;", columns, tableName);
+			return stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
+	}
 }

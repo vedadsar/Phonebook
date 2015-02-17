@@ -25,6 +25,11 @@ public class ApplicationController {
 		ApplicationView.home(c);
 	}
 	
+	public static void list(){
+		Contact [] all = Contact.all();
+		ApplicationView.list(all);
+	}
+	
 	public static void main(String[] args) {
 	
 		try {

@@ -1,12 +1,16 @@
 package ba.bitcamp.vedadz.view;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream.GetField;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -32,8 +36,7 @@ public class ApplicationView extends Main{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ContactControler.list();
-			
+				ApplicationController.list();	
 				
 			}
 		});
@@ -114,6 +117,62 @@ public class ApplicationView extends Main{
 		addPanel.add(back);
 		Main.replacePanel(addPanel);
 		
+	}
+
+	public static void list(Contact[] all) {
+		int buttonHeight = 50;
+		JPanel content = new JPanel();
+		content.setPreferredSize(new Dimension(ApplicationView.windowWidth-10, all.length *(buttonHeight +20)));
+		JButton back = new JButton("back");		
+		JButton add = new JButton("add");
+		
+		back.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ApplicationController.home();				
+			}
+		});
+		add.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ApplicationController.addContact();
+				
+			}
+		});
+		content.add(add);
+		content.add(back);
+		
+		if(all.length<1){
+			JLabel message = new JLabel("You have no friends");
+			content.add(message);
+		}
+		
+		
+		//TODO adding contact
+		
+		for(int i=0; i<all.length; i++) {
+			JButton current = new JButton(all[i].getDisplayName());
+			current.setName(""+all[i].getID());
+			current.setPreferredSize(new Dimension(ApplicationView.windowWidth - 75,buttonHeight));
+			current.addActionListener(new ActionListener() {				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					JButton clicked = (JButton)(e.getSource());
+					int id = Integer.parseInt(clicked.getName());
+					System.out.println("Korisnik: " +id);
+					
+				}
+			});
+			content.add(current);
+			
+		}
+		JScrollPane sp = new JScrollPane(content);
+		sp.setPreferredSize(new Dimension(ApplicationView.windowWidth-10, ApplicationView.windowHeight));
+		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		Main.replacePanel(sp);
 	}
 	
 }
