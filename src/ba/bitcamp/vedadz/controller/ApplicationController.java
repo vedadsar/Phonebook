@@ -67,5 +67,20 @@ public class ApplicationController {
 	public static void addContact() {
 		ApplicationView.add();		
 	}
+	
+	public static void update(int id){
+		Contact current = Contact.find(id);
+		ApplicationView.update(current);
+	}
+	
+	public static void update(Contact current) {
+		current.update();
+		ApplicationView.update(current);
+	}
+
+	public static void delete(int id) {
+		Contact.delete(id);
+		list();
+	}
 
 }

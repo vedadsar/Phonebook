@@ -92,4 +92,25 @@ public class Application {
 			return null;
 		}
 	}
+
+	public static void update(String tableName, int id, String values) {
+		try {
+			Statement stmt = db.createStatement();
+			String sql = String.format("UPDATE %s SET %s where id= '%d';",tableName, values, id);
+			stmt.execute(sql);
+		} catch (SQLException e) {
+			System.err.println("FAILED TO UPDATE");
+		}
+	}
+
+	public static void delete(String tableName, int id) {
+		try {
+			Statement stmt = db.createStatement();
+			String sql = String.format("DELETE FROM %s where id= '%d';",tableName, id);
+			stmt.execute(sql);
+		} catch (SQLException e) {
+			System.err.println("FAILED TO DELETE");
+		}
+		
+	}
 }

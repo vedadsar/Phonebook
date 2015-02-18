@@ -146,5 +146,14 @@ public class Contact extends Application {
 	public int getID() {
 		return ID;
 	}
+
+	public void update() {
+		String sql = String.format("name = '%s', surname = '%s', number = '%s' ", this.name, this.surname, this.phoneNumber);
+		Application.update(tableName, this.ID, sql);
+	}
+
+	public static void delete(int id) {
+		Application.delete(tableName, id);
+	}
 	
 }

@@ -10,6 +10,7 @@ import java.io.ObjectInputStream.GetField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -190,7 +191,7 @@ public class ApplicationView extends Main{
 		Main.replacePanel(sp);
 	}
 	
-	public static void user(Contact current){
+	public static void user(final Contact current){
 		JPanel content = new JPanel();
 		JLabel name = new JLabel("Name");
 		JLabel surname = new JLabel("Surname");
@@ -223,6 +224,7 @@ public class ApplicationView extends Main{
 		
 		JButton back = new JButton("Back");
 		JButton edit = new JButton("Edit");
+		JButton delete = new JButton("Delete");
 		
 		back.addActionListener(new ActionListener() {			
 			@Override
@@ -234,6 +236,19 @@ public class ApplicationView extends Main{
 		edit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ApplicationController.update(current.getID());
+			}
+		});
+		
+		delete.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(null, "Are you sure?","Delete?", JOptionPane.YES_NO_OPTION);
+				if(response == JOptionPane.YES_OPTION){	
+					ApplicationController.delete(current.getID());
+				}else{
+					return;
+				}
 			}
 		});
 		
@@ -245,7 +260,72 @@ public class ApplicationView extends Main{
 		content.add(cNumber);
 		content.add(back);
 		content.add(edit);
+		content.add(delete);
 		Main.replacePanel(content);
 	}
 	
+	public static void update(final Contact current){
+		
+		JPanel addPanel = new JPanel();
+		JLabel name = new JLabel("Name");
+		JLabel surname = new JLabel("Surname");
+		JLabel number = new JLabel("Number");
+		final JTextField nameTextField = new JTextField(current.getName(), 25);
+		final JTextField surnameTextField = new JTextField(current.getSurname(), 25);
+		final JTextField numberTextField = new JTextField(current.getPhoneNumber(), 25);
+		JButton addButton = new JButton("Add");
+		JButton back = new JButton("Back");
+		
+		//Action listeners for buttons
+		addButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public  void actionPerformed(ActionEvent e) {
+				/* get data from input
+				 * and send it to create method
+				 */
+				String cName = nameTextField.getText();
+				String cSurname = surnameTextField.getText();
+				String cNumber = numberTextField.getText();
+				current.setName(cName);
+				current.setSurname(cSurname);
+				current.setPhoneNumber(cNumber);
+				
+				ApplicationController.update(current);
+				
+			}
+		});
+		
+		back.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ApplicationController.viewUser(current.getID());
+				
+			}
+		});
+		
+		//Setting size and alignment of elements
+		name.setPreferredSize(new Dimension(350,50));
+		name.setHorizontalAlignment(SwingConstants.CENTER);
+		nameTextField.setPreferredSize(new Dimension(350,50));
+		surname.setPreferredSize(new Dimension(350,50));
+		surname.setHorizontalAlignment(SwingConstants.CENTER);
+		surnameTextField.setPreferredSize(new Dimension(350,50));
+		number.setPreferredSize(new Dimension(350,50));
+		number.setHorizontalAlignment(SwingConstants.CENTER);
+		numberTextField.setPreferredSize(new Dimension(350,50));	
+	
+		//adding elements to panel.
+		addPanel.add(name);
+		addPanel.add(nameTextField);
+		addPanel.add(surname);
+		addPanel.add(surnameTextField);
+		addPanel.add(number);
+		addPanel.add(numberTextField);
+		addPanel.add(addButton);
+		addPanel.add(back);
+		Main.replacePanel(addPanel);
+		
+	}
 }
