@@ -70,8 +70,19 @@ public class Contact extends Application {
 	 * @return
 	 */
 	public boolean save(){
-		String values = String.format("(?, '%s', '%s', '%s')", this.name, this.surname, this.phoneNumber);
-		return Application.save(tableName, values);		
+		String values;
+		if(this.ID != -1)
+			values= String.format("('%d', '%s', '%s', '%s')", this.ID, this.name, this.surname, this.phoneNumber);
+		else			
+			values= String.format("(?, '%s', '%s', '%s')", this.name, this.surname, this.phoneNumber);
+		int id =  Application.save(tableName, values);
+		
+		if(id == -1)
+			return false;
+		else{
+			this.ID = id;
+			return true;
+		}
 	}
 	
 	/**

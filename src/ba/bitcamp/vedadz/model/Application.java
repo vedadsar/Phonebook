@@ -17,8 +17,8 @@ public class Application {
 	 * Static method for initial connecting to db.
 	 * @throws SQLException
 	 */
-	public static void init() throws SQLException{
-		db = DriverManager.getConnection("jdbc:sqlite:phonebook.db");
+	public static void init(String databaseName) throws SQLException{
+		db = DriverManager.getConnection("jdbc:sqlite:" +databaseName +".db");
 		
 	}
 	
@@ -48,7 +48,7 @@ public class Application {
 	 * @param values 	- values we're inserting
 	 * @return			- true if saving went good or false if it failed.
 	 */
-	protected static boolean save(String tableName, String values){
+	protected static int save(String tableName, String values){
 		Statement stmt = null;
 		try {
 			 stmt = db.createStatement();
@@ -56,18 +56,22 @@ public class Application {
 			stmt.execute("begin;");
 			stmt.execute(sql);
 			stmt.execute("commit;");
-			return true;
+			
+			sql = String.format("SELECT max(id) AS last FROM %s" ,tableName);
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			return rs.getInt(1);			
 		} catch (SQLException e) {
 			if(stmt != null){
 				try {
 					stmt.execute("rollback;");	//if saving went wrong we rollback.
 				} catch (SQLException e1) {
 					System.err.println(e.getMessage());
-					return false; //if we still got error, we return false.
+					return -1; //if we still got error, we return false.
 				}
 			}
 			System.err.println(e.getMessage());			
-			return false;
+			return -1;
 		}
 	}
 	

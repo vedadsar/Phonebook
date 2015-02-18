@@ -27,9 +27,7 @@ public class ApplicationController {
 	public static void create(String name, String surname, String number){
 		Contact newContact = new Contact(name, surname, number);
 		if(newContact.save() == true){
-			//TODO redirect to contact info
-			home();
-			JOptionPane.showMessageDialog(null, "Successfuly created contact "+newContact.getName(), "ERROR", JOptionPane.INFORMATION_MESSAGE);	
+			viewUser(newContact.getID());
 		}else{
 		JOptionPane.showMessageDialog(null, "Creating contact failed!","ERROR", JOptionPane.WARNING_MESSAGE);	
 		}
@@ -53,13 +51,17 @@ public class ApplicationController {
 	public static void main(String[] args) {
 	
 		try {
-			Application.init();	
+			Application.init("phonebook");	
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}
 		Main.init();		
 		home();
+	}
+	public static void viewUser(int id){
+		Contact current = Contact.find(id);
+		ApplicationView.user(current);
 	}
 
 	public static void addContact() {

@@ -2,6 +2,7 @@ package ba.bitcamp.vedadz.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ObjectInputStream.GetField;
@@ -132,7 +133,7 @@ public class ApplicationView extends Main{
 	 * can controll our jscrollpane.
 	 * @param all
 	 */
-	public static void list(Contact[] all) {
+	public static void list(final Contact[] all) {
 		int buttonHeight = 50;
 		JPanel content = new JPanel();
 		content.setPreferredSize(new Dimension(ApplicationView.windowWidth-10, all.length *(buttonHeight +20)));
@@ -170,11 +171,12 @@ public class ApplicationView extends Main{
 			current.addActionListener(new ActionListener() {				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					
+					
 					JButton clicked = (JButton)(e.getSource());
 					int id = Integer.parseInt(clicked.getName());
 					System.out.println("Korisnik: " +id);
-					
+					ApplicationController.viewUser(id);
 				}
 			});
 			content.add(current);
@@ -186,6 +188,64 @@ public class ApplicationView extends Main{
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		Main.replacePanel(sp);
+	}
+	
+	public static void user(Contact current){
+		JPanel content = new JPanel();
+		JLabel name = new JLabel("Name");
+		JLabel surname = new JLabel("Surname");
+		JLabel number = new JLabel("Number");
+		
+		JLabel cName = new JLabel();
+		JLabel cSurname = new JLabel();
+		JLabel cNumber = new JLabel();
+		cName.setFont(new Font("Verdana", Font.BOLD, 18));
+		cSurname.setFont(new Font("Verdana", Font.BOLD, 18));
+		cNumber.setFont(new Font("Verdana", Font.BOLD, 18));
+		
+		cName.setHorizontalAlignment(SwingConstants.CENTER);
+		cSurname.setHorizontalAlignment(SwingConstants.CENTER);
+		cNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		
+		cName.setText(current.getName());
+		cSurname.setText(current.getSurname());
+		cNumber.setText(current.getPhoneNumber());
+		
+		
+		//setting sizes
+		name.setPreferredSize(new Dimension(350, 50));
+		surname.setPreferredSize(new Dimension(350, 50));
+		number.setPreferredSize(new Dimension(350, 50));
+		cName.setPreferredSize(new Dimension(350, 50));
+		cSurname.setPreferredSize(new Dimension(350, 50));
+		cNumber.setPreferredSize(new Dimension(350, 50));
+		
+		JButton back = new JButton("Back");
+		JButton edit = new JButton("Edit");
+		
+		back.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ApplicationController.list();
+			}
+		});
+		
+		edit.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		content.add(name);
+		content.add(cName);
+		content.add(surname);
+		content.add(cSurname);
+		content.add(number);
+		content.add(cNumber);
+		content.add(back);
+		content.add(edit);
+		Main.replacePanel(content);
 	}
 	
 }
